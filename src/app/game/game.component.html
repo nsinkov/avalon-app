@@ -1,0 +1,78 @@
+game state: {{ (game | async)?.state }}
+<br>
+<div *ngIf="selectedPlayer && gameIsStarting((game | async))" style="padding: 10px;">
+  <button (click)="joinGame()">join game</button>
+</div>
+<button *ngIf="isAdmin() || (chaosMode | async)" (click)="newGame()">new game</button>
+<button *ngIf="isAdmin()" (click)="newGameAddAll()">new game add all</button>
+
+<button *ngIf="(isAdmin() || (chaosMode | async)) && gameIsStarting((game | async))" (click)="startGame()">start game</button>
+
+<button *ngIf="(isAdmin() || chaosModeSynced) && isNightPhase(gameSynced) && !showRoles" (click)="showRolesFn()">reveal roles</button>
+
+<button *ngIf="isAdmin()" (click)="toggleChaosMode()">
+  Turn {{ (chaosMode | async) ? "off" : "on" }} chaos mode
+</button>
+
+<div *ngIf="selectedPlayer && isNightPhaseX((game | async))">
+  <div *ngIf="selectedPlayer && isNightPhase(gameSynced)">
+    <div *ngIf="showRoles">
+    You are <span style="font-size: large; font-weight: bold;">{{ role }}</span>
+    <span *ngIf="firstToPropose"> and you are <span style="font-size: large; font-weight: bold;">First To Propose</span></span>
+    <span *ngIf="!firstToPropose"> and {{ firstToProposePlayer }} is first to propose</span>
+    </div>
+    <div *ngIf="thumbs">
+    You see:
+    <table>
+      <tr>
+        <td>
+          <div *ngFor="let thumb of thumbs; let i = index">
+            <div *ngIf="i % 2 == 0" style="padding: 10px;">
+              {{ thumb }}
+              <br>
+              <img [src]=" getAvatar(thumb) " />
+            </div>
+          </div>      
+        </td>
+        <td>
+          <div *ngFor="let thumb of thumbs; let i = index">
+            <div *ngIf="i % 2 == 1" style="padding: 10px;">
+              {{ thumb }}
+              <br>
+              <img [src]=" getAvatar(thumb) " />
+            </div>
+          </div>      
+        </td>
+      </tr>
+    </table>
+    </div>
+  </div>
+  <div *ngIf="selectedPlayer && !isNightPhase(gameSynced)">
+    You are not part of the game in progress.
+    <br>
+    <br>
+    <ul>
+      <li *ngFor="let roleInfo of allRoles">
+          {{ roleInfo.playerName }}
+          <br>
+          {{ roleInfo.role }}
+          <br>
+          <img [src]=" getAvatar(roleInfo.playerName) " />
+      </li>
+  </ul>
+  </div>
+</div>
+
+<div *ngIf="selectedPlayer && gameIsStarting((game | async))">
+  {{ (players | async)?.length }} players:
+  <ul>
+      <li *ngFor="let player of players | async">
+          {{ player.name }}
+          <br>
+          <span *ngIf="player.role" >{{ player.role }}<br></span>
+          <img [src]=" getAvatar(player.name) " />
+          <br>
+          <button *ngIf="isAdmin() || chaosModeSynced" (click)="kickPlayer(player)">kick player</button>
+      </li>
+  </ul>
+</div>

@@ -1,0 +1,37 @@
+  
+  <!-- <form class="container" [formGroup]="myForm">
+    <div class="form-group">
+      <span>rotate</span>
+    <mat-form-field>
+      <input matInput type="number" min="0" max="100"class="form-control" formControlName="age">
+    </mat-form-field>
+    </div>
+  </form> -->
+  <div> 
+    <label for="file">File:</label>
+    <!-- (change)="upload($event)" -->
+    <input type="file" imageUpload 
+    
+    accept=".png,.jpg"
+    (imageSelected)="selected($event)"
+    [imageToDataUrl]="options" />
+  </div>
+  <div> 
+    <img [src]="src" *ngIf="src">
+  </div>
+  <div>
+    <button (click)="rotate()">Rotate</button><input [(ngModel)]="rotation" type="number" min="0" max="360">degrees
+  </div>
+
+  <div> 
+    Name<input [(ngModel)]="playerName" type="text">
+    <br>
+  <button (click)="createPlayer()">Create Player</button>
+  </div>
+
+  <!-- <div> 
+     <img [src]="profileUrl | async" />
+  </div>
+  <div> 
+  <button (click)="reload()">Reload</button>
+  </div> -->

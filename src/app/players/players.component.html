@@ -1,0 +1,31 @@
+
+<!-- <ul>
+    <li *ngFor="let game of gamesVals | async">
+        <pre>{{ game | json }}</pre>
+    </li>
+</ul> -->
+
+<!-- <button (click)="dev()">dev</button> -->
+
+
+<button (click)="clearSelectedPlayer()">None</button>
+<ul>
+    <li *ngFor="let player of playersVals | async">
+      <div (click)="selectPlayer(player)" style="cursor: pointer;">
+        {{ player.name }}
+        <br>
+        <img [src]=" getAvatar(player.name) " />
+      </div>
+        <!-- {{ player.name }}
+        <button (click)="selectPlayer(player)">Select</button>
+        <br>
+        <img [src]=" getAvatar(player.name) " />
+        <br> -->
+        <button *ngIf="isAdmin()" (click)="deletePlayer(player)">delete player</button>
+        <!-- <button (click)="printPlayer(player)">print player</button> -->
+    </li>
+</ul>
+
+<br>
+<button (click)="clearSorting()">(Clear sorting)</button>
+<!-- <button (click)="addPlayer()">add player</button> -->

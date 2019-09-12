@@ -1,0 +1,25 @@
+
+.example-spacer {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+:root {
+  /* setting var for nav height, you can do this however you want */
+  --sticky-nav-height: 56px;
+}
+ 
+.sticky-nav-wrapper {
+  /* set min height on wrapper so that the page
+     doesn't awkwardly snap and lose height */
+  min-height: var(--sticky-nav-height);
+}
+ 
+.sticky-nav {
+  height: var(--sticky-nav-height);
+  /* other styles */
+}
+
+.custom-nav-class {
+  width: 99vw;
+  }
