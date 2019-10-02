@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyDtGyalR66R1cBVrTh8Is_9rLIN3_jCH3U",
+    apiKey: "",
     authDomain: "avalon-db.firebaseapp.com",
     databaseURL: "https://avalon-db.firebaseio.com",
     projectId: "avalon-db",
