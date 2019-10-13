@@ -102,7 +102,7 @@ export class PlayersComponent implements OnInit {
     localStorage.setItem('selected_player', player.name);
     this.db.object('/picks/' + this.uuid + '/' + player.name).set('t' + Date.now());
     this.broadcastService.getSelectedPlayer().next(player.name);
-    this.db.object('/picksLastUpdateTime/' + this.uuid).set('' + Date.now());
+    this.db.object('/picks/lastUpdateTime/' + this.uuid).set('' + Date.now());
   }
 
   clearSorting() {
