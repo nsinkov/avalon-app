@@ -50,8 +50,7 @@ export class PlayersComponent implements OnInit {
     this.db.list('/picks/' + this.uuid).snapshotChanges()    
     .subscribe(picks => 
       {
-        picks.forEach(pick =>
-        this.picksMap[pick.key] =  pick.payload.val())
+        picks.forEach(pick => this.picksMap[pick.key] =  pick.payload.val())
 
           this.players = db.list('/players');
           this.playersVals = this.players.snapshotChanges().pipe(
@@ -103,6 +102,7 @@ export class PlayersComponent implements OnInit {
     localStorage.setItem('selected_player', player.name);
     this.db.object('/picks/' + this.uuid + '/' + player.name).set('t' + Date.now());
     this.broadcastService.getSelectedPlayer().next(player.name);
+    this.db.object('/picksLastUpdateTime/' + this.uuid).set('' + Date.now());
   }
 
   clearSorting() {
