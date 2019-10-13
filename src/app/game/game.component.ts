@@ -104,13 +104,6 @@ export class GameComponent implements OnInit {
     const sortPlayers = (a,b) => {
       const ags = Object.keys(a.val.games || {})
       const bgs = Object.keys(b.val.games || {})
-      console.log("sorting " + a.val.games + " " + ags + " " + a.val.name)
-      if (ags.length > bgs.length) {
-        console.log("sorting -1 " + a.val.name + " vs " + b.val.name)
-      }
-      if (bgs.length > ags.length) {
-        console.log("sorting +1 " + a.val.name + " vs " + b.val.name)
-      }
       if (ags.length > bgs.length) return -1
       if (bgs.length > ags.length) return 1
       return a.val.name < b.val.name ? -1 : 1
