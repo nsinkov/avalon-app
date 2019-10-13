@@ -7,7 +7,7 @@ export class AvatarService {
 
   avatars = {};
   //url404 = "assets/Blank-Face.jpg";
-  url404 = "https://raw.githubusercontent.com/nsinkov/tsavalon/master/src/assets/Blank-Face.jpg";
+  url404 = "https://raw.githubusercontent.com/nsinkov/avalon-app/master/src/assets/Blank-Face.jpg";
   constructor(private afStorage: AngularFireStorage) {
     
   }

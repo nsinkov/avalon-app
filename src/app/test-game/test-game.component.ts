@@ -8,11 +8,12 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { map, first } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-game',
-  templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css']
+  selector: 'app-test-game',
+  templateUrl: './test-game.component.html',
+  styleUrls: ['./test-game.component.css']
 })
-export class GameComponent implements OnInit {
+export class TestGameComponent implements OnInit {
+
   isAdmin = isAdmin;
   isGarbageOs = isGarbageOs;
 
@@ -44,6 +45,17 @@ export class GameComponent implements OnInit {
     );
   }
 
+  roleDescriptions = {
+         blue: "Regular Blue",
+         merlin: "Merlin",
+         percival: "Percival",
+         spy: "Regular Spy",
+         assasin: "Assasin",
+         morgana: "Morgana",
+         mordred: "Mordred",
+         worst: "Worst Blue",
+  }
+  
   readNewGameState(game) {
     this.gameSynced = game;
     if (!game || game.state != 'night-phase' || !game['nightInfo']) return;
@@ -131,16 +143,6 @@ export class GameComponent implements OnInit {
   }
   randomInt(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-  roleDescriptions = {
-         blue: "Regular Blue",
-         merlin: "Merlin",
-         percival: "Percival",
-         spy: "Regular Spy",
-         assasin: "Assasin",
-         morgana: "Morgana",
-         mordred: "Mordred",
-         worst: "Worst Blue",
   }
 
   startGame() {
@@ -323,10 +325,11 @@ export class GameComponent implements OnInit {
     return game.state === 'night-phase';
   }
 
-
+  
   
   toggleChaosMode() {
     this.chaosModeRef.valueChanges().pipe(first())
     .subscribe(m => this.chaosModeRef.set(!m))
   }
+
 }

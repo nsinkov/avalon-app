@@ -10,6 +10,8 @@ import { environment } from '../environments/environment';
 
 import { SetAdminComponent } from './dummy-auth/set-admin/set-admin.component';
 import { SetNoobComponent } from './dummy-auth/set-noob/set-noob.component';
+import { SetNormalComponent } from './os/set-normal/set-normal.component';
+import { SetGarbageComponent } from './os/set-garbage/set-garbage.component';
 import { GameComponent } from './game/game.component';
 import { NewPlayerComponent } from './new-player/new-player.component';
 import { PlayersComponent } from './players/players.component';
@@ -30,6 +32,7 @@ import {MatButtonModule, MatInputModule, MatSliderModule, MatDialogModule, MatFo
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { TestGameComponent } from './test-game/test-game.component';
 
 @NgModule({
   imports: [
@@ -39,10 +42,13 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     // NoopAnimationsModule,
     RouterModule.forRoot([
       { path: '', component: GameComponent },
+      { path: 'test', component: TestGameComponent },
       { path: 'new_player', component: NewPlayerComponent },
       { path: 'players', component: PlayersComponent },
       { path: 'admin', component: SetAdminComponent },
       { path: 'noob', component: SetNoobComponent },
+      { path: 'android', component: SetNormalComponent },
+      { path: 'ios', component: SetGarbageComponent },
     ]),
     AngularFireModule.initializeApp(environment.firebase),
     // AngularFirestoreModule,
@@ -67,7 +73,10 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     GameComponent,
     NewPlayerComponent,
     PlayersComponent,
-    TopBarComponent
+    TopBarComponent,
+    SetNormalComponent,
+    SetGarbageComponent,
+    TestGameComponent
   ],
   bootstrap: [ AppComponent ],
   providers: [ BroadcastService, AvatarService ]

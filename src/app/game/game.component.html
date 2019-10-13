@@ -1,3 +1,13 @@
+<!-- <div *ngIf="isGarbageOs() && selectedPlayer && isNightPhaseX((game | async)) && !isNightPhase(gameSynced)">
+  You are not part of the game in progress.
+  <br>
+  <ul>
+    <li *ngFor="let roleInfo of allRoles">
+        {{ roleInfo.playerName }} is {{ roleInfo.role }}
+    </li>
+  </ul>
+</div> -->
+
 game state: {{ (game | async)?.state }}
 <br>
 <div *ngIf="selectedPlayer && gameIsStarting((game | async))" style="padding: 10px;">

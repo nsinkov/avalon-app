@@ -1,0 +1,16 @@
+<!-- <div *ngIf="selectedPlayer && isNightPhaseX((game | async))"> -->
+  <!-- <div *ngIf="selectedPlayer && !isNightPhase(gameSynced)"> -->
+    You are not part of the game in progress.
+    <br>
+    <br>
+    <ul>
+      <li *ngFor="let roleInfo of allRoles">
+          {{ roleInfo.playerName }}
+          <br>
+          {{ roleInfo.role }}
+          <br>
+          <img [src]=" getAvatar(roleInfo.playerName) " />
+      </li>
+  </ul>
+  <!-- </div> -->
+<!-- </div> -->
