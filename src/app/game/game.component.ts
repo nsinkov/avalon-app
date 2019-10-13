@@ -64,6 +64,19 @@ export class GameComponent implements OnInit {
       this.firstToProposePlayer = myNightInfo.firstToProposePlayer;
       this.showRoles = game.showRoles;
       this.thumbs = this.showRoles ? myNightInfo.thumbs : myNightInfo.fakeThumbs;
+      if (this.showRoles) {
+        var playerGames = {}
+        playerGames[this.gameSynced.time] = myNightInfo.role
+        this.db.list('/players', ref => ref.orderByChild('name')
+          .equalTo(this.selectedPlayer))
+          .snapshotChanges().pipe(
+          map(actions => actions.map(
+            c => ({ key: c.payload.key, val: c.payload.val() })      
+          ))
+        ).pipe(first()).subscribe(
+          kv => this.db.object('/players/' + kv[0].key + '/games').set({...kv[0].val['games'],...playerGames})
+        );
+      }
   }
 
   ngOnInit() {
@@ -88,27 +101,39 @@ export class GameComponent implements OnInit {
   }
   newGameAddAll() {
 
+    const sortPlayers = (a,b) => {
+      const ags = Object.keys(a.val.games || {})
+      const bgs = Object.keys(b.val.games || {})
+      console.log("sorting " + a.val.games + " " + ags + " " + a.val.name)
+      if (ags.length > bgs.length) {
+        console.log("sorting -1 " + a.val.name + " vs " + b.val.name)
+      }
+      if (bgs.length > ags.length) {
+        console.log("sorting +1 " + a.val.name + " vs " + b.val.name)
+      }
+      if (ags.length > bgs.length) return -1
+      if (bgs.length > ags.length) return 1
+      return a.val.name < b.val.name ? -1 : 1
+    }
     this.db.list('/players')
       .snapshotChanges().pipe(
       map(actions => actions.map(
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
         // get the keys of player objects so that they don't get new ones in the players list of the game
-        c => ({ key: c.payload.key, ...c.payload.val() })      
-      ))
-    ).pipe(first()).subscribe(players =>
+        //c => ({ key: c.payload.key, ...c.payload.val() })
+        c => ({ key: c.payload.key, val: c.payload.val() })
+      ).sort(sortPlayers))
+    ).pipe(first())
+    .subscribe(players =>
      {
-
       const arrayToObject = (array) =>
         array.reduce((obj, item) => {
-          obj[item.key] = item
+          obj[item.key] = {name: item.val.name}
           return obj
         }, {});
       let playersObj = arrayToObject(players.slice(0,10));
-    this.gameRef.set({state: 'new-game', players:playersObj});
+      this.gameRef.set({state: 'new-game', players:playersObj});
      });
-
-
-
   }
 
   gameIsStarting(game) {
@@ -116,6 +141,8 @@ export class GameComponent implements OnInit {
     //this.gameSynced = game;
     return game.state === 'new-game';
   }
+
+
 
   joinGame() {
     
@@ -127,7 +154,7 @@ export class GameComponent implements OnInit {
       ))
     ).subscribe(
       // x => console.log(x)
-      kv => this.db.object('/game/players/' + kv[0].key).set(kv[0].val)
+      kv => this.db.object('/game/players/' + kv[0].key).set({name: kv[0].val.name})
       );
   }
 
@@ -304,9 +331,10 @@ export class GameComponent implements OnInit {
           } 
        }
       // this.gameRef.set({state: 'night-phase', players:playersObj});
-      this.gameRef.set({state: 'night-phase', nightInfo: nightInfo});
+      this.gameRef.set({state: 'night-phase', nightInfo: nightInfo, time: ('' + Date.now())});
       //  console.log(this.randomInt(0,4));console.log(players[0].name);
       this.lastGameRef.set(this.gameSynced);
+
      });
   }
   
