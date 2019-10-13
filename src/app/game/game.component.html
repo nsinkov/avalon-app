@@ -14,6 +14,7 @@ game state: {{ (game | async)?.state }}
   <button (click)="joinGame()">join game</button>
 </div>
 <button *ngIf="isAdmin() || (chaosMode | async)" (click)="newGame()">new game</button>
+<button *ngIf="isAdmin() || (chaosMode | async)" (click)="restartLastGame()">reset game</button>
 <button *ngIf="isAdmin()" (click)="newGameAddAll()">new game add all</button>
 
 <button *ngIf="(isAdmin() || (chaosMode | async)) && gameIsStarting((game | async))" (click)="startGame()">start game</button>

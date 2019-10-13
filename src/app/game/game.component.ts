@@ -25,6 +25,7 @@ export class GameComponent implements OnInit {
   playersRef;
   players;
   selectedPlayer = null;
+  lastGameRef;
   constructor(
     private db: AngularFireDatabase,
     private avatarService: AvatarService
@@ -42,6 +43,7 @@ export class GameComponent implements OnInit {
         c => ({ key: c.payload.key, ...c.payload.val() })      
       ))
     );
+    this.lastGameRef = db.object('/lastGame');
   }
 
   readNewGameState(game) {
@@ -80,11 +82,17 @@ export class GameComponent implements OnInit {
   newGame() {
     this.gameRef.set({state: 'new-game'});
   }
+  restartLastGame() {
+    this.lastGameRef.valueChanges().pipe(first())
+    .subscribe(lastGame => this.gameRef.set(lastGame));
+  }
   newGameAddAll() {
 
     this.db.list('/players')
       .snapshotChanges().pipe(
       map(actions => actions.map(
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+        // get the keys of player objects so that they don't get new ones in the players list of the game
         c => ({ key: c.payload.key, ...c.payload.val() })      
       ))
     ).pipe(first()).subscribe(players =>
@@ -298,6 +306,7 @@ export class GameComponent implements OnInit {
       // this.gameRef.set({state: 'night-phase', players:playersObj});
       this.gameRef.set({state: 'night-phase', nightInfo: nightInfo});
       //  console.log(this.randomInt(0,4));console.log(players[0].name);
+      this.lastGameRef.set(this.gameSynced);
      });
   }
   
