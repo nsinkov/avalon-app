@@ -50,6 +50,7 @@ export class PlayersComponent implements OnInit {
     this.db.list('/picks/' + this.uuid).snapshotChanges()    
     .subscribe(picks => 
       {
+        // if '/picks/' + this.uuid is missing, will get back zero-length picks list
         picks.forEach(pick => this.picksMap[pick.key] =  pick.payload.val())
 
           this.players = db.list('/players');
